@@ -39,7 +39,7 @@ export default function precheckout() {
         </div>
 
         {/* Vehicle Info */}
-        <h2 className="text-2xl font-bold mt-4">Lamborghini Urus 1000cc</h2>
+        <h2 className="text-2xl font-bold mt-4 text-gray-700">Lamborghini Urus 1000cc</h2>
         <p className="text-lg text-gray-700 mt-2">
           Price at <span className="font-bold">IDR 1.000.000,00 / Day</span>
         </p>
