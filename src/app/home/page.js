@@ -30,27 +30,23 @@ export default function home() {
       </Head>
 
       <nav className="navbar py-3" style={{ backgroundColor: '#6984FF' }}>
-        <div className="container-fluid d-flex align-items-center justify-content-between">
-          {/* Logo kiri */}
-          <a className="navbar-brand text-white fw-bold fs-3" href="#" style={{ letterSpacing: '0.5px' }}>
+        <div className="container-fluid">
+          <a className="navbar-brand text-white fw-bold fs-3" href="#">
             Velo<span style={{ color: '#ffffff' }}>Rent.</span>
           </a>
-          {/* Menu tengah */}
-          <div className="d-flex gap-5 justify-content-center flex-grow-1" style={{ marginLeft: '-120px' }}>
-            <a className="text-white fw-bold fs-5 text-decoration-none" href="#">Home</a>
-            <a className="text-white fw-bold fs-5 text-decoration-none" href="#">Settings</a>
-            <a className="text-white fw-bold fs-5 text-decoration-none" href="#">History</a>
+          <div className="d-flex gap-4 justify-content-center flex-grow-1">
+            <a className="btn btn-outline-light px-5 py-3 fw-bold fs-5" href="#">Home</a>
+            <a className="btn btn-outline-light px-5 py-3 fw-bold fs-5" href="#">Settings</a>
+            <a className="btn btn-outline-light px-5 py-3 fw-bold fs-5" href="#">History</a>
           </div>
-          {/* Profil kanan */}
           <div className="d-flex align-items-center">
-            <span className="text-white me-2 fw-bold fs-6" style={{ fontSize: '13px' }}>Hello, User !</span>
+            <span className="text-white me-2 fw-bold fs-6">Hello, User !</span>
             <img
               src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
               alt="User"
-              width={32}
-              height={32}
-              className="rounded-circle border border-white"
-              style={{ background: '#6984FF', padding: '2px' }}
+              width={38}
+              height={38}
+              className="rounded-circle"
             />
           </div>
         </div>
