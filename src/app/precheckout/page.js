@@ -76,6 +76,8 @@ export default function Precheckout() {
           <p className="text-lg text-gray-700 mb-4">
             Price at <span className="font-bold">IDR 1.000.000,00 / Day</span>
           </p>
+        </div>
+
 
           {/* Vehicle Description */}
           <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 font-semibold shadow">
