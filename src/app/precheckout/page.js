@@ -1,8 +1,20 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+const carImages = [
+  "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80",
+  "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=600&q=80",
+  "https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?auto=format&fit=crop&w=600&q=80",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80"
+];
 
 export default function Precheckout() {
   const router = useRouter();
+  const [current, setCurrent] = useState(0);
+
+  const prevSlide = () => setCurrent((prev) => (prev === 0 ? carImages.length - 1 : prev - 1));
+  const nextSlide = () => setCurrent((prev) => (prev === carImages.length - 1 ? 0 : prev + 1));
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 font-sans">
@@ -30,22 +42,32 @@ export default function Precheckout() {
         {/* Image Carousel */}
         <div className="relative w-full max-w-md">
           <img
-            src="https://toyotaastrapedia.com/storage/app/uploads/public/61b/5e6/4e7/61b5e64e7c7e1556117801.png"
+            src={carImages[current]}
             alt="Car"
-            className="w-full rounded-lg shadow"
+            className="w-full h-56 object-cover rounded-lg shadow"
           />
-          <button className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow border">
+          <button
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow border"
+            onClick={prevSlide}
+            aria-label="Previous"
+          >
             &#8592;
           </button>
-          <button className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow border">
+          <button
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow border"
+            onClick={nextSlide}
+            aria-label="Next"
+          >
             &#8594;
           </button>
         </div>
         <div className="flex justify-center gap-2 mt-2">
-          <span className="w-2 h-2 bg-black rounded-full"></span>
-          <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
-          <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
-          <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
+          {carImages.map((_, idx) => (
+            <span
+              key={idx}
+              className={`w-2 h-2 rounded-full ${current === idx ? "bg-black" : "bg-gray-300"}`}
+            ></span>
+          ))}
         </div>
 
         {/* Vehicle Info */}
