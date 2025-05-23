@@ -64,7 +64,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-start justify-end bg-[url('/bg-login.jpg')] bg-cover bg-center font-sans">
+    <div className="min-h-screen flex items-center justify-center bg-[url('/bg-login.jpg')] bg-cover bg-center font-sans">
       <div className="bg-gray-200 bg-opacity-95 shadow-lg w-full max-w-xl h-screen p-10 flex flex-col items-start">
         <h2 className="text-3xl font-bold mb-8 w-full text-center">Create a New Account</h2>
         <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto space-y-5">
