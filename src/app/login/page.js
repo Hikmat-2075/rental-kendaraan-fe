@@ -35,7 +35,7 @@ export default function Login() {
       localStorage.setItem("role", data.role);
 
       // Arahkan ke halaman dashboard
-      router.push("/dashboard");
+      router.push("/home");
     } catch (err) {
       setError(err.message);
     }

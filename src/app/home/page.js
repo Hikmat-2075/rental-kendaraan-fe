@@ -46,7 +46,7 @@ const promoCars = [
   }
 ];
 
-export default function Dashboard() {
+export default function home() {
   const carouselRef = useRef(null);
 
   const handlePrev = () => {
@@ -71,10 +71,7 @@ export default function Dashboard() {
           </div>
           <ul className="flex gap-16 text-white font-semibold text-lg">
             <li>
-              <a href="#" className="hover:text-blue-400 transition">Home</a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-blue-400 transition">Settings</a>
+              <a href="/home" className="hover:text-blue-400 transition">Home</a>
             </li>
             <li>
               <a href="#" className="hover:text-blue-400 transition">History</a>
@@ -95,14 +92,22 @@ export default function Dashboard() {
       {/* Section di bawahnya overlap ke atas */}
       <div className="bg-gradient-to-b from-[#3b5bdb] to-[#5f8dff] pt-12 pb-20 -mt-8 z-0 relative">
         <section className="flex justify-center gap-16">
-          <div className="bg-white rounded-2xl shadow-md flex flex-col items-center px-12 py-10 transition hover:scale-105 cursor-pointer">
-            <img src="https://img.icons8.com/ios/100/car--v1.png" alt="Car" className="w-24 h-24 mb-4" />
-            <a href="/list-mobil" className="font-bold text-lg text-gray-800">Cars</a>
-          </div>
-          <div className="bg-white rounded-2xl shadow-md flex flex-col items-center px-12 py-10 transition hover:scale-105 cursor-pointer">
-            <img src="https://img.icons8.com/ios/100/motorcycle.png" alt="Motorcycle" className="w-24 h-24 mb-4" />
-            <p className="font-bold text-lg text-gray-800">Motorcycle</p>
-          </div>
+        <a
+          href="/list_mobil"
+          className="bg-white rounded-2xl shadow-md flex flex-col items-center px-12 py-10 transition hover:scale-105 cursor-pointer"
+        >
+          <img src="https://img.icons8.com/ios/100/car--v1.png" alt="Car" className="w-24 h-24 mb-4" />
+          <p className="font-bold text-lg text-gray-800">Cars</p>
+        </a>
+
+        <a
+          href="/list_motor"
+          className="bg-white rounded-2xl shadow-md flex flex-col items-center px-12 py-10 transition hover:scale-105 cursor-pointer"
+        >
+          <img src="https://img.icons8.com/ios/100/motorcycle.png" alt="Motorcycle" className="w-24 h-24 mb-4" />
+          <p className="font-bold text-lg text-gray-800">Motorcycle</p>
+        </a>
+
         </section>
       </div>
 

@@ -1,21 +1,31 @@
 export default function pembayaran() {
   return (
-    <div className="min-h-screen bg-gray-100 p-8 sm:p-20 font-sans">
-      {/* Header */}
-      <header className="flex justify-between items-center bg-blue-500 text-white p-4 rounded-lg">
-        <h1 className="text-2xl font-bold">VeloRent.</h1>
-        <nav className="flex gap-4">
-          <a href="#" className="hover:underline">Home</a>
-          <a href="#" className="hover:underline">Settings</a>
-          <a href="#" className="hover:underline">History</a>
-        </nav>
-        <div className="flex items-center gap-2">
-          <span>Hello, User!</span>
-          <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-            <span className="text-blue-500 font-bold">U</span>
+    <div className="min-h-screen font-sans bg-[#3b5bdb] relative overflow-x-hidden">
+      {/* Navbar */}
+      <div className="bg-black rounded-b-[25px] shadow-lg z-10 relative">
+        <nav className="flex items-center justify-between px-12 py-5">
+          <div className="logo text-3xl font-bold text-white tracking-tight">
+            VeloRent
           </div>
-        </div>
-      </header>
+          <ul className="flex gap-16 text-white font-semibold text-lg">
+            <li>
+              <a href="/home" className="hover:text-blue-400 transition">Home</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-blue-400 transition">History</a>
+            </li>
+          </ul>
+          <div className="flex items-center gap-3">
+            <span className="text-white font-medium hover:text-blue-400 transition cursor-pointer">Hello, User !</span>
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-gray-200">
+              <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+              </svg>
+            </div>
+          </div>
+        </nav>
+      </div>
 
       {/* Main Content */}
       <main className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
