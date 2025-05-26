@@ -35,7 +35,11 @@ export default function Login() {
       localStorage.setItem("role", data.role);
 
       // Arahkan ke halaman dashboard
-      router.push("/home");
+      if (data.role === "admin") {
+        router.push("/admin/dashboard"); // Admin diarahkan ke dashboard admin
+      } else {
+        router.push("/home"); // User biasa diarahkan ke halaman home
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -97,7 +101,7 @@ export default function Login() {
           <div>
             New User?{" "}
             <a
-              href="/register"
+              href="/auth/register"
               className="text-blue-600 font-semibold hover:underline"
             >
               Sign Up

@@ -28,7 +28,7 @@ const motorList = [
   }
 ];
 
-export default function list_motor() {
+export default function Motorcycles() {
   return (
     <div className="min-h-screen font-sans bg-[#3b5bdb] relative overflow-x-hidden">
       {/* Navbar */}

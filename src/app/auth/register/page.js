@@ -31,7 +31,7 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/users/register", {
+      const response = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export default function Register() {
           password: "",
           confirmPassword: "",
         });
-        router.push("/login");
+        router.push("/auth/login");
       } else {
         const error = await response.text();
         alert("Register failed: " + error);
@@ -153,7 +153,7 @@ export default function Register() {
         </form>
         <div className="flex justify-start w-full max-w-md mx-auto mt-6 text-sm text-gray-600">
           <span>Already have an account?&nbsp;</span>
-          <a href="/login" className="text-blue-600 font-semibold hover:underline">Sign in</a>
+          <a href="/auth/login" className="text-blue-600 font-semibold hover:underline">Sign in</a>
         </div>
       </div>
     </div>

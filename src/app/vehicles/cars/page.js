@@ -28,7 +28,7 @@ const carList = [
   }
 ];
 
-export default function ListMobilPage() {
+export default function Cars() {
   return (
     <div className="min-h-screen font-sans bg-[#3b5bdb] relative overflow-x-hidden">
       {/* Navbar */}
