@@ -1,4 +1,4 @@
-export default function pembayaran() {
+export default function Payment() {
   return (
     <div className="min-h-screen font-sans bg-[#3b5bdb] relative overflow-x-hidden">
       {/* Navbar */}

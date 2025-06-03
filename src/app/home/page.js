@@ -46,7 +46,7 @@ const promoCars = [
   }
 ];
 
-export default function home() {
+export default function Home() {
   const carouselRef = useRef(null);
 
   const handlePrev = () => {
@@ -93,7 +93,7 @@ export default function home() {
       <div className="bg-gradient-to-b from-[#3b5bdb] to-[#5f8dff] pt-12 pb-20 -mt-8 z-0 relative">
         <section className="flex justify-center gap-16">
         <a
-          href="/list_mobil"
+          href="/vehicles/cars"
           className="bg-white rounded-2xl shadow-md flex flex-col items-center px-12 py-10 transition hover:scale-105 cursor-pointer"
         >
           <img src="https://img.icons8.com/ios/100/car--v1.png" alt="Car" className="w-24 h-24 mb-4" />
@@ -101,7 +101,7 @@ export default function home() {
         </a>
 
         <a
-          href="/list_motor"
+          href="/vehicles/motorcycles"
           className="bg-white rounded-2xl shadow-md flex flex-col items-center px-12 py-10 transition hover:scale-105 cursor-pointer"
         >
           <img src="https://img.icons8.com/ios/100/motorcycle.png" alt="Motorcycle" className="w-24 h-24 mb-4" />

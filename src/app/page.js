@@ -13,7 +13,7 @@ export default function Home() {
         
         <div className="flex justify-center">
           <Link
-            href="/login"
+            href="/auth/login"
             className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-600 transition"
           >
             Login

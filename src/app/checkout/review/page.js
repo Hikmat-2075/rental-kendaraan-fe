@@ -9,7 +9,7 @@ const carImages = [
   "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80"
 ];
 
-export default function Precheckout() {
+export default function Review() {
   const router = useRouter();
   const [current, setCurrent] = useState(0);
 
