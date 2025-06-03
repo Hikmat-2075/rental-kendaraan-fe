@@ -1,16 +1,22 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { toast } from "react-hot-toast";
+import request from "@/utils/request";
 
 export default function Register() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     username: "",
-    name: "",
+    namaLengkap: "",
     email: "",
+    noTelepon: "",
     password: "",
     confirmPassword: "",
   });
@@ -18,127 +24,159 @@ export default function Register() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
+    setLoading(true);
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      setErrorMessage("Password dan konfirmasi password tidak sama");
+      setLoading(false);
       return;
     }
 
-    try {
-      const response = await fetch("http://localhost:8080/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          namaLengkap: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      if (response.ok) {
-        alert("Register successful!");
-        setFormData({
-          username: "",
-          name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
-        router.push("/auth/login");
-      } else {
-        const error = await response.text();
-        alert("Register failed: " + error);
-      }
-    } catch (error) {
-      alert("Error: " + error.message);
-    }
+    request
+      .post("/auth/register", {
+        username: formData.username,
+        namaLengkap: formData.namaLengkap,
+        email: formData.email,
+        noTelepon: formData.noTelepon,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      })
+      .then(function (response) {
+        if (response.status === 200 || response.status === 201) {
+          toast.dismiss();
+          toast.success("Success Register");
+          router.push("/auth/login");
+        } else {
+          toast.dismiss();
+          toast.error("Registrasi gagal. Silakan coba lagi.");
+        }
+      })
+      .catch(function (error) {
+        const message =
+          error?.response?.data?.message ||
+          error?.response?.data?.errors?.message ||
+          "Terjadi kesalahan. Silakan coba lagi.";
+        toast.dismiss();
+        toast.error(message);
+        setErrorMessage(message);
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[url('/bg-login.jpg')] bg-cover bg-center font-sans">
-      <div className="bg-gray-200 bg-opacity-95 shadow-lg w-full max-w-xl h-screen p-10 flex flex-col items-start">
-        <h2 className="text-3xl font-bold mb-8 w-full text-center">Create a New Account</h2>
-        <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto space-y-5">
+      <div className="bg-white bg-opacity-95 shadow-2xl rounded-xl w-full max-w-xl p-10 flex flex-col items-start">
+        <h2 className="text-3xl font-bold mb-6 w-full text-center text-blue-700">Buat Akun Baru</h2>
+
+        {successMessage && (
+          <div className="w-full bg-green-100 text-green-700 border border-green-400 px-4 py-2 rounded mb-4 text-center">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="w-full bg-red-100 text-red-700 border border-red-400 px-4 py-2 rounded mb-4 text-center">
+            {errorMessage}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="w-full space-y-5">
           <div>
-            <label htmlFor="username" className="block font-semibold mb-1 text-left">Username</label>
+            <label htmlFor="username" className="block font-medium mb-1">Username</label>
             <input
               id="username"
+              name="username"
               type="text"
-              placeholder="Username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Username"
               required
             />
           </div>
           <div>
-            <label htmlFor="name" className="block font-semibold mb-1 text-left">Name</label>
+            <label htmlFor="namaLengkap" className="block font-medium mb-1">Nama Lengkap</label>
             <input
-              id="name"
+              id="namaLengkap"
+              name="namaLengkap"
               type="text"
-              placeholder="Name"
-              value={formData.name}
+              value={formData.namaLengkap}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Nama Lengkap"
               required
             />
           </div>
           <div>
-            <label htmlFor="email" className="block font-semibold mb-1 text-left">Email</label>
+            <label htmlFor="email" className="block font-medium mb-1">Email</label>
             <input
               id="email"
+              name="email"
               type="email"
-              placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="noTelepon" className="block font-medium mb-1">Nomor Telepon</label>
+            <input
+              id="noTelepon"
+              name="noTelepon"
+              type="tel"
+              value={formData.noTelepon}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="08xxxxxxxxxx"
               required
             />
           </div>
           <div className="relative">
-            <label htmlFor="password" className="block font-semibold mb-1 text-left">Password</label>
+            <label htmlFor="password" className="block font-medium mb-1">Password</label>
             <input
               id="password"
+              name="password"
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
+              placeholder="Password"
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-2 top-9 text-gray-500"
+              className="absolute right-3 top-9 text-gray-500"
               tabIndex={-1}
             >
               👁️
             </button>
           </div>
           <div className="relative">
-            <label htmlFor="confirmPassword" className="block font-semibold mb-1 text-left">Confirm Password</label>
+            <label htmlFor="confirmPassword" className="block font-medium mb-1">Konfirmasi Password</label>
             <input
               id="confirmPassword"
+              name="confirmPassword"
               type={showConfirm ? "text" : "password"}
-              placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
+              placeholder="Konfirmasi Password"
               required
             />
             <button
               type="button"
               onClick={() => setShowConfirm((prev) => !prev)}
-              className="absolute right-2 top-9 text-gray-500"
+              className="absolute right-3 top-9 text-gray-500"
               tabIndex={-1}
             >
               👁️
@@ -146,14 +184,18 @@ export default function Register() {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg shadow-md transition mt-2"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-lg transition"
           >
-            Register
+            {loading ? "Mendaftar..." : "Daftar"}
           </button>
         </form>
-        <div className="flex justify-start w-full max-w-md mx-auto mt-6 text-sm text-gray-600">
-          <span>Already have an account?&nbsp;</span>
-          <a href="/auth/login" className="text-blue-600 font-semibold hover:underline">Sign in</a>
+
+        <div className="mt-6 text-sm text-gray-600 w-full text-center">
+          Sudah punya akun?{" "}
+          <a href="/auth/login" className="text-blue-600 font-semibold hover:underline">
+            Masuk di sini
+          </a>
         </div>
       </div>
     </div>

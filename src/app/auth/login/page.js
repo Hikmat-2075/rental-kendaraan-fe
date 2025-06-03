@@ -2,47 +2,60 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import request from "@/utils/request";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccessMessage("");
 
-    try {
-      const res = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    request
+      .post(
+        "/auth/login",
+        {
+          username: username,
+          password: password,
         },
-        body: JSON.stringify({ username, password }),
+      )
+      .then(function (response) {
+        console.log("Success:", response.data);
+        if (response.status === 200 || response.status === 201) {
+          Cookies.set("token", response.data.token);
+          toast.dismiss();
+          toast.success("Success Login");
+          if (response.data.role === "ADMIN") {
+            router.push("/admin/dashboard");
+          }else{
+            setSuccessMessage("Login successful! Redirecting to home...");
+            setTimeout(() => {
+              router.push("/home");
+            }, 2000);
+          }
+        } else {
+          toast.dismiss();
+          toast.error("Failed to login. Please try again.");
+          setLoading(false);
+        }
+      })
+      .catch(function (error) {
+        const message =
+          error?.response?.data?.errors?.message || error?.status == 404
+            ? "Akun anda belum terdaftar"
+            : "Unknown error";
+
+        toast.dismiss();
+        toast.error(formattedStatus(message));
+        setLoading(false);
       });
-
-      if (!res.ok) {
-        const message = await res.text();
-        throw new Error(message || "Login gagal");
-      }
-
-      const data = await res.json();
-
-      // Simpan token ke localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("role", data.role);
-
-      // Arahkan ke halaman dashboard
-      if (data.role === "admin") {
-        router.push("/admin/dashboard"); // Admin diarahkan ke dashboard admin
-      } else {
-        router.push("/home"); // User biasa diarahkan ke halaman home
-      }
-    } catch (err) {
-      setError(err.message);
-    }
   };
 
   return (
@@ -92,6 +105,15 @@ export default function Login() {
           >
             Login
           </button>
+
+          {/* Notifikasi berhasil */}
+          {successMessage && (
+            <p className="text-green-600 text-sm text-center mt-2 animate-pulse">
+              {successMessage}
+            </p>
+          )}
+
+          {/* Notifikasi gagal */}
           {error && (
             <p className="text-red-600 text-sm text-center mt-2">{error}</p>
           )}
