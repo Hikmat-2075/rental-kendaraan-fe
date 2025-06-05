@@ -6,8 +6,8 @@ export default function Register() {
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-start justify-end bg-[url('/bg-login.jpg')] bg-cover bg-center font-sans">
-      <div className="bg-gray-200 bg-opacity-95 shadow-lg w-full max-w-xl p-10 flex flex-col items-start">
+    <div className="min-h-screen flex justify-end bg-[url('/bg-login.jpg')] bg-cover bg-center font-sans">
+      <div className="bg-gray-200 bg-opacity-95 shadow-lg w-full max-w-xl min-h-screen p-10 flex flex-col justify-center">
         <h2 className="text-3xl font-bold mb-8 w-full text-center">Create a New Account</h2>
         <form className="w-full max-w-md mx-auto space-y-5">
           <div>
@@ -108,7 +108,7 @@ export default function Register() {
           <span>Already have an account ?&nbsp;</span>
           <a href="/login" className="text-blue-600 font-semibold hover:underline">Sign in</a>
         </div>
-      </div>
+      </div> {/* ini penutup kotak abu-abu */}
     </div>
   );
 }
