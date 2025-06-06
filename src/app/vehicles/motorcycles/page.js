@@ -1,139 +1,90 @@
 "use client";
 import React from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import request from "@/utils/request";
+import Navbar from "@/components/Navbar";
 
-const motorList = [
-	{
-		name: "Yamaha R15",
-		img: "/images/r15.png",
-		price: "Rp 350.000 / hari",
-		desc: "Motor sport ringan cocok untuk pemula.",
-	},
-	{
-		name: "Kawasaki Ninja 250",
-		img: "/images/ninja250.png",
-		price: "Rp 500.000 / hari",
-		desc: "Performa tinggi dan tampilan agresif.",
-	},
-	{
-		name: "Honda PCX",
-		img: "/images/pcx.png",
-		price: "Rp 300.000 / hari",
-		desc: "Skuter premium dengan kenyamanan maksimal.",
-	},
-	{
-		name: "Yamaha NMAX",
-		img: "/images/nmax.png",
-		price: "Rp 280.000 / hari",
-		desc: "Kenyamanan dan efisiensi untuk harian.",
-	},
-	{
-		name: "Honda Vario 150",
-		img: "/images/vario150.png",
-		price: "Rp 250.000 / hari",
-		desc: "Skuter matik irit dan lincah untuk aktivitas harian.",
-	},
-	{
-		name: "Suzuki GSX-R150",
-		img: "/images/gsxr150.png",
-		price: "Rp 320.000 / hari",
-		desc: "Motor sport dengan performa tinggi dan desain sporty.",
-	},
-	{
-		name: "Yamaha Aerox",
-		img: "/images/aerox.png",
-		price: "Rp 260.000 / hari",
-		desc: "Skuter matik sporty dengan fitur modern.",
-	},
-	{
-		name: "Honda Beat",
-		img: "/images/beat.png",
-		price: "Rp 200.000 / hari",
-		desc: "Skuter matik paling irit dan praktis.",
-	},
-	{
-		name: "Kawasaki Z250",
-		img: "/images/z250.png",
-		price: "Rp 400.000 / hari",
-		desc: "Naked bike dengan tampilan gagah dan bertenaga.",
-	},
-];
 
 export default function Motorcycles() {
+	const router = useRouter();
+	const [motorList, setMotorList] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [username, setUsername] = useState("");
+
+	// Ambil username dari localStorage
+	useEffect(() => {
+		const storedUsername = localStorage.getItem("username");
+		if (storedUsername) {
+			setUsername(storedUsername);
+		} else {
+			console.warn("Username tidak ditemukan di localStorage");
+		}
+	}, []);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const res = await request.get("/motor");
+				console.log("Response data:", res.data);
+				setMotorList(res.data);
+			} catch (error) {
+				console.error("Gagal mengambil data mobil:", error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchData();
+	}, []);
 	return (
-		<div className="min-h-screen font-sans bg-white relative overflow-x-hidden">
-			{/* Navbar */}
-			<div className="bg-black rounded-b-[25px] shadow-lg z-10 relative">
-				<nav className="flex items-center justify-between px-12 py-5">
-					<div className="logo text-3xl font-bold text-white tracking-tight">
-						VeloRent
-					</div>
-					<ul className="flex gap-16 text-white font-semibold text-lg">
-						<li>
-							<a
-								href="/home"
-								className="hover:text-blue-400 transition"
-							>
-								Home
-							</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								className="hover:text-blue-400 transition"
-							>
-								History
-							</a>
-						</li>
-					</ul>
-					<div className="flex items-center gap-3">
-						<span className="text-white font-medium hover:text-blue-400 transition cursor-pointer">
-							Hello, User !
-						</span>
-						<div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-gray-200">
-							<svg
-								className="w-7 h-7 text-gray-400"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth={2}
-								viewBox="0 0 24 24"
-							>
-								<circle cx="12" cy="8" r="4" />
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4"
-								/>
-							</svg>
-						</div>
-					</div>
-				</nav>
-			</div>
+		<div className="min-h-screen font-sans bg-gradient-to-b from-blue-400 to-blue-100 overflow-x-hidden">
+			{/* Gunakan Navbar dengan username */}
+			<Navbar userName={username} />
 
 			{/* List Motor */}
-			<div className="py-12 px-6">
-				<h1 className="text-3xl font-bold mb-8 text-center text-black py-8">
+			<main className="py-12 px-6">
+				<h1 className="text-4xl font-bold mb-10 text-center text-white">
 					Daftar Motor Tersedia
 				</h1>
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-					{motorList.map((motor, idx) => (
-						<div
-							key={idx}
-							className="bg-white text-gray-900 rounded-xl shadow-lg p-6 transition hover:scale-105 cursor-pointer"
-						>
-							<img
-								src={motor.img}
-								alt={motor.name}
-								className="w-full h-40 object-contain mb-4"
-							/>
-							<h3 className="font-bold text-lg">{motor.name}</h3>
-							<p className="italic text-sm text-gray-600">
-								{motor.desc}
+
+				{loading ? (
+					<p className="text-center text-white text-lg">Memuat data motor...</p>
+				) : (
+					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+						{motorList.length === 0 ? (
+							<p className="text-white text-center col-span-full">
+								Tidak ada motor tersedia.
 							</p>
-							<p className="font-semibold mt-2">{motor.price}</p>
-						</div>
-					))}
-				</div>
-			</div>
+						) : (
+							motorList.map((motor, idx) => (
+								<div
+									key={idx}
+									onClick={() => router.push(`/checkout/review/${motor.id}`)}
+									className="bg-white/80 text-gray-900 rounded-2xl shadow-xl border border-gray-200 p-6 backdrop-blur-sm hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer"
+								>
+									<img
+										src={
+											motor.gambar
+												? `${process.env.NEXT_PUBLIC_HOST}${motor.gambar}`
+												: "/images/default.png"
+										}
+										alt={motor.nama || "Motor"}
+										className="w-full h-40 object-contain mb-4"
+									/>
+									<h3 className="font-bold text-lg">{motor.nama || "Nama tidak tersedia"}</h3>
+									<p className="text-sm text-gray-600">
+										{motor.status || "Tidak Tersedia"}
+									</p>
+									<p className="font-semibold mt-2">
+										{motor.harga ? `Rp ${motor.harga} / hari` : "Harga tidak tersedia"}
+									</p>
+								</div>
+							))
+						)}
+					</div>
+				)}
+			</main>
 		</div>
 	);
 }

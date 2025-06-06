@@ -2,19 +2,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const carImages = [
-  "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80"
-];
+const carImage = "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=600&q=80";
 
 export default function Review() {
   const router = useRouter();
-  const [current, setCurrent] = useState(0);
-
-  const prevSlide = () => setCurrent((prev) => (prev === 0 ? carImages.length - 1 : prev - 1));
-  const nextSlide = () => setCurrent((prev) => (prev === carImages.length - 1 ? 0 : prev + 1));
 
   return (
     <div className="min-h-screen font-sans bg-[#3b5bdb] relative overflow-x-hidden">
@@ -46,35 +37,13 @@ export default function Review() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-6">
-        {/* Image Carousel */}
+        {/* Image Display */}
         <div className="relative w-full max-w-md">
           <img
-            src={carImages[current]}
+            src={carImage}
             alt="Car"
             className="w-full h-56 object-cover rounded-lg shadow"
           />
-          <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow border"
-            onClick={prevSlide}
-            aria-label="Previous"
-          >
-            &#8592;
-          </button>
-          <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow border"
-            onClick={nextSlide}
-            aria-label="Next"
-          >
-            &#8594;
-          </button>
-        </div>
-        <div className="flex justify-center gap-2 mt-2">
-          {carImages.map((_, idx) => (
-            <span
-              key={idx}
-              className={`w-2 h-2 rounded-full ${current === idx ? "bg-black" : "bg-gray-300"}`}
-            ></span>
-          ))}
         </div>
 
         {/* Vehicle Info */}
@@ -101,16 +70,16 @@ export default function Review() {
       </main>
 
       {/* Footer Buttons */}
-      <div className="w-full grid grid-cols-2">
+      <div className="w-full flex justify-center gap-4 px-4 py-2">
         <button
-          className="bg-blue-500 text-white py-4 text-lg font-bold rounded-none border-r border-white hover:bg-blue-600 transition"
-          onClick={() => router.back()}
+          className="bg-blue-500 text-white py-3 text-lg font-semibold rounded-lg shadow-md hover:bg-blue-600 transition w-full max-w-xs"
+          onClick={() => router.back()} // Tombol BACK: mengarah ke halaman sebelumnya
         >
           BACK
         </button>
         <button
-          className="bg-blue-500 text-white py-4 text-lg font-bold rounded-none hover:bg-blue-600 transition"
-          onClick={() => router.push("/pembayaran")}
+          className="bg-blue-500 text-white py-3 text-lg font-semibold rounded-lg shadow-md hover:bg-blue-600 transition w-full max-w-xs"
+          onClick={() => router.push("/checkout/payment")} // Tombol RENT: mengarah ke halaman pembayaran
         >
           RENT
         </button>

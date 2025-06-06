@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import request from "@/utils/request";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -24,26 +24,44 @@ export default function Login() {
         {
           username: username,
           password: password,
-        },
+        }
       )
       .then(function (response) {
         console.log("Success:", response.data);
         if (response.status === 200 || response.status === 201) {
-          Cookies.set("token", response.data.token);
-          toast.dismiss();
-          toast.success("Success Login");
-          if (response.data.role === "ADMIN") {
-            router.push("/admin/dashboard");
-          }else{
+          const { token, role, user } = response.data; // Pastikan user termasuk di respons
+
+          // Simpan data login di localStorage
+          localStorage.setItem("token", token);
+          localStorage.setItem("role", role);
+          localStorage.setItem("username", username);
+          localStorage.setItem("userId", user.id); // Simpan ID user jika diperlukan
+          if (user) {
+            // Simpan informasi user tambahan (misalnya, email, nama, dll)
+            localStorage.setItem("userData", JSON.stringify(user));
+          }
+
+          // Simpan token di Cookies jika masih diperlukan
+          Cookies.set("token", token);
+
+          toast.dismiss();  // Menghapus toast sebelumnya
+          toast.success("Login Berhasil!");
+
+          // Menunggu sebelum redirect untuk memastikan toast terlihat
+          if (role === "ADMIN") {
+            toast.success("Welcome, Admin!"); // Menampilkan toast untuk Admin
+            setTimeout(() => {
+              router.push("/admin/dashboard");
+            }, 1500);  // 1.5 detik untuk memberi waktu agar toast tampil
+          } else {
             setSuccessMessage("Login successful! Redirecting to home...");
             setTimeout(() => {
               router.push("/home");
-            }, 2000);
+            }, 2000);  // 2 detik untuk memberi waktu agar toast tampil
           }
         } else {
           toast.dismiss();
           toast.error("Failed to login. Please try again.");
-          setLoading(false);
         }
       })
       .catch(function (error) {
@@ -53,12 +71,13 @@ export default function Login() {
             : "Unknown error";
 
         toast.dismiss();
-        toast.error(formattedStatus(message));
-        setLoading(false);
+        toast.error(message);  // Menggunakan message yang lebih tepat
       });
   };
 
   return (
+    <>
+    <Toaster position="top-center"/>
     <div className="min-h-screen flex items-center justify-center bg-[url('/bg-login.jpg')] bg-cover bg-center font-sans">
       <div className="bg-gray-200 bg-opacity-95 rounded-lg shadow-lg w-full max-w-md p-10 flex flex-col items-center">
         <h2 className="text-3xl font-bold mb-8 text-center">Sign in</h2>
@@ -135,5 +154,6 @@ export default function Login() {
         </div>
       </div>
     </div>
+    </>
   );
 }
