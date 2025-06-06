@@ -14,7 +14,7 @@ export default function DetailMobilPage({ params }) {
         }
     }, []);
 
-    const BASE_IMAGE_URL = 'http://localhost:8080'; // Ganti sesuai backend kamu
+ // Ganti sesuai backend kamu
 
     if (!mobil) {
         return (
@@ -31,7 +31,7 @@ export default function DetailMobilPage({ params }) {
                 <div className="flex-shrink-0">
                     {mobil.gambar ? (
                         <img
-                            src={`${BASE_IMAGE_URL}${mobil.gambar}`}
+                            src={`${process.env.NEXT_PUBLIC_HOST}${mobil.gambar}`}
                             alt={mobil.nama}
                             className="w-full md:w-80 h-auto rounded-lg shadow-md object-cover"
                         />

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import request from "@/utils/request";
 
 export default function Register() {
@@ -72,6 +72,8 @@ export default function Register() {
   };
 
   return (
+    <>
+    <Toaster position="top-center"/>
     <div className="min-h-screen flex items-center justify-center bg-[url('/bg-login.jpg')] bg-cover bg-center font-sans">
       <div className="bg-white bg-opacity-95 shadow-2xl rounded-xl w-full max-w-xl p-10 flex flex-col items-start">
         <h2 className="text-3xl font-bold mb-6 w-full text-center text-blue-700">Buat Akun Baru</h2>
@@ -199,5 +201,6 @@ export default function Register() {
         </div>
       </div>
     </div>
+    </>
   );
 }

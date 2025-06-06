@@ -2,39 +2,38 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { use } from 'react';
 import request from '@/utils/request';
 
 export default function EditMobil({ params }) {
     const router = useRouter();
-    const { id } = use(params);
-    const [mobil, setMobil] = useState(null);
+    const { id } = params;
+    const [motor, setMotor] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchMobil = async () => {
+        const fetchMotor = async () => {
             try {
-                const response = await request.get(`/mobil/${id}`);
-                setMobil(response.data); // Pastikan backend mengirimkan objek mobil
+                const response = await request.get(`/motor/${id}`);
+                setMotor(response.data); // Pastikan backend mengirimkan objek motor
             } catch (error) {
-                console.error('Gagal mengambil data mobil:', error);
+                console.error('Gagal mengambil data motor:', error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchMobil();
+        fetchMotor();
     }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setMobil((prev) => ({ ...prev, [name]: value }));
+        setMotor((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setMobil((prev) => ({ ...prev, gambar: file }));
+            setMotor((prev) => ({ ...prev, gambar: file }));
         }
     };
 
@@ -43,39 +42,39 @@ export default function EditMobil({ params }) {
 
         try {
             const formData = new FormData();
-            for (const key in mobil) {
-                formData.append(key, mobil[key]);
+            for (const key in motor) {
+                formData.append(key, motor[key]);
             }
 
-            await request.put(`/mobil/${id}`, formData, {
+            await request.put(`/motor/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
             alert('Mobil berhasil diedit!');
-            router.push('/admin/vehicles/mobil');
+            router.push('/admin/vehicles/motor');
         } catch (error) {
-            console.error('Gagal mengedit mobil:', error);
+            console.error('Gagal mengedit motor:', error);
             alert('Terjadi kesalahan saat menyimpan data.');
         }
     };
 
-    if (loading || !mobil) return <p>Loading...</p>;
+    if (loading || !motor) return <p>Loading...</p>;
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold">Edit Mobil</h1>
+            <h1 className="text-2xl font-bold">Edit Motor</h1>
             <form onSubmit={handleSubmit} encType="multipart/form-data" className="mt-4">
 
                 {/* Input Nama */}
                 <div className="mb-4">
-                    <label htmlFor="nama" className="block text-sm font-medium mb-2">Nama Mobil</label>
+                    <label htmlFor="nama" className="block text-sm font-medium mb-2">Nama Motor</label>
                     <input
                         type="text"
                         id="nama"
                         name="nama"
-                        value={mobil.nama || ''}
+                        value={motor.nama || ''}
                         onChange={handleChange}
                         className="px-4 py-2 border rounded w-full"
                         required
@@ -89,7 +88,7 @@ export default function EditMobil({ params }) {
                         type="text"
                         id="nomorPolisi"
                         name="nomorPolisi"
-                        value={mobil.nomorPolisi || ''}
+                        value={motor.nomorPolisi || ''}
                         onChange={handleChange}
                         className="px-4 py-2 border rounded w-full"
                         required
@@ -104,7 +103,7 @@ export default function EditMobil({ params }) {
                             type="number"
                             id="tahun"
                             name="tahun"
-                            value={mobil.tahun || ''}
+                            value={motor.tahun || ''}
                             onChange={handleChange}
                             className="px-4 py-2 border rounded w-full"
                             required
@@ -115,7 +114,7 @@ export default function EditMobil({ params }) {
                         <select
                             id="status"
                             name="status"
-                            value={mobil.status || ''}
+                            value={motor.status || ''}
                             onChange={handleChange}
                             className="px-4 py-2 border rounded w-full"
                             required
@@ -135,19 +134,19 @@ export default function EditMobil({ params }) {
                             type="number"
                             id="harga"
                             name="harga"
-                            value={mobil.harga || ''}
+                            value={motor.harga || ''}
                             onChange={handleChange}
                             className="px-4 py-2 border rounded w-full"
                             required
                         />
                     </div>
                     <div>
-                        <label htmlFor="kapasitas" className="block text-sm font-medium mb-2">Kapasitas</label>
+                        <label htmlFor="kapasitas" className="block text-sm font-medium mb-2">Kapasitas Mesin</label>
                         <input
                             type="number"
                             id="kapasitas"
                             name="kapasitas"
-                            value={mobil.kapasitas || ''}
+                            value={motor.kapasitasMesin || ''}
                             onChange={handleChange}
                             className="px-4 py-2 border rounded w-full"
                             required
@@ -162,7 +161,7 @@ export default function EditMobil({ params }) {
                         <select
                             id="jenisTransmisi"
                             name="jenisTransmisi"
-                            value={mobil.jenisTransmisi || ''}
+                            value={motor.jenisTransmisi || ''}
                             onChange={handleChange}
                             className="px-4 py-2 border rounded w-full"
                             required
@@ -176,7 +175,7 @@ export default function EditMobil({ params }) {
                         <select
                             id="jenisBahanBakar"
                             name="jenisBahanBakar"
-                            value={mobil.jenisBahanBakar || ''}
+                            value={motor.jenisBahanBakar || ''}
                             onChange={handleChange}
                             className="px-4 py-2 border rounded w-full"
                             required
@@ -195,7 +194,7 @@ export default function EditMobil({ params }) {
                         type="text"
                         id="tipeMobil"
                         name="tipeMobil"
-                        value={mobil.tipeMobil || ''}
+                        value={motor.tipeMobil || ''}
                         onChange={handleChange}
                         className="px-4 py-2 border rounded w-full"
                         required
@@ -203,22 +202,17 @@ export default function EditMobil({ params }) {
                 </div>
 
                 {/* Input Gambar */}
-                {mobil.gambarUrl && (
-                    <div className="mb-2">
-                        <p className="text-sm text-gray-600">Gambar saat ini:</p>
-                        <img src={mobil.gambarUrl} alt="Gambar Sekarang" className="w-48 rounded shadow" />
-                    </div>
-                )}
-
-                {/* Input untuk upload gambar baru (opsional) */}
-                <label htmlFor="gambar" className="block text-sm font-medium mb-2">Ganti Gambar</label>
-                <input
-                    type="file"
-                    id="gambar"
-                    name="gambar"
-                    onChange={handleFileChange}
-                    className="px-4 py-2 border rounded w-full"
-                />
+                <div className="mb-4">
+                    <label htmlFor="gambar" className="block text-sm font-medium mb-2">Gambar Mobil</label>
+                    <input
+                        type="file"
+                        id="gambar"
+                        name="gambar"
+                        value={motor.gambar || ''}
+                        onChange={handleFileChange}
+                        className="px-4 py-2 border rounded w-full"
+                    />
+                </div>
 
                 <button
                     type="submit"

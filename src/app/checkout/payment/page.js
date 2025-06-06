@@ -1,21 +1,27 @@
+'use client';
+import React from 'react'; // Import React
+import Navbar from '@/components/Navbar'; 
+import { useState, useEffect } from 'react'; // Import useState and useEffect hooks
+import request from '@/utils/request'; // Import request utility for API calls
+
+
 export default function Payment() {
+  const [username, setUsername] = useState('');
+  // Fetch username from localStorage
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    } else {
+      console.warn('Username not found in localStorage');
+    }
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100 p-0 font-sans">
+      {/* Navbar */}
+      <Navbar userName={username} />
+
       {/* Header */}
-      <header className="flex justify-between items-center bg-blue-500 text-white p-4 border-b border-blue-200 rounded-none">
-        <h1 className="text-2xl font-bold">VeloRent.</h1>
-        <nav className="flex gap-8">
-          <a href="#" className="hover:underline font-bold">Home</a>
-          <a href="#" className="hover:underline font-bold">Settings</a>
-          <a href="#" className="hover:underline font-bold">History</a>
-        </nav>
-        <div className="flex items-center gap-2">
-          <span className="font-semibold">Hello, User !</span>
-          <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-            <span className="text-blue-500 font-bold">U</span>
-          </div>
-        </div>
-      </header>
       {/* Main Content */}
       <main className="mt-8 flex flex-col gap-8 px-4">
         {/* Car Details */}
@@ -56,79 +62,10 @@ export default function Payment() {
           </div>
         </section>
 
-        {/* Payment Methods */}
-        <section className="bg-white p-6 border border-gray-300 rounded-xl shadow-sm flex-1 flex flex-col">
-          <h2 className="text-xl font-bold mb-4">Payment Methods</h2>
-          <div className="flex gap-4 mb-6">
-            <button className="flex-1 bg-blue-500 text-white py-2 rounded-lg font-bold shadow-sm">Transfer Bank</button>
-            <button className="flex-1 bg-gray-200 py-2 rounded-lg font-bold text-gray-500">Kredit</button>
-            <button className="flex-1 bg-gray-200 py-2 rounded-lg font-bold text-gray-500">Qris</button>
-            <button className="flex-1 bg-gray-200 py-2 rounded-lg font-bold text-gray-500">Cash</button>
-          </div>
-          <h3 className="text-lg font-bold mb-4">Pilih Bank</h3>
-          <ul className="space-y-2">
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <img src="https://seeklogo.com/images/S/seabank-logo-7B6B5B3A6B-seeklogo.com.png" alt="SeaBank" className="w-6 h-6" />
-              <span className="font-semibold">SeaBank</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Logo_Bank_Central_Asia.svg" alt="BCA" className="w-6 h-6" />
-              <span className="font-semibold">Bank BCA</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Logo_Bank_Mandiri.svg" alt="Mandiri" className="w-6 h-6" />
-              <span className="font-semibold">Bank Mandiri</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Logo_Bank_BNI.svg" alt="BNI" className="w-6 h-6" />
-              <span className="font-semibold">Bank BNI</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Logo_Bank_BRI.svg" alt="BRI" className="w-6 h-6" />
-              <span className="font-semibold">Bank BRI</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Logo_Bank_Syariah_Indonesia.svg" alt="BSI" className="w-6 h-6" />
-              <span className="font-semibold">Bank Syariah Indonesia (BSI)</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Logo_Bank_Permata.svg" alt="Permata" className="w-6 h-6" />
-              <span className="font-semibold">Bank Permata</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Logo_CIMB_Niaga.svg" alt="CIMB Niaga" className="w-6 h-6" />
-              <span className="font-semibold">Bank CIMB Niaga</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="radio" name="bank" className="accent-blue-500" />
-              <span className="font-semibold">Bank lainnya</span>
-            </li>
-          </ul>
-          <p className="mt-4 text-sm text-gray-500">
-            Terdapat perubahan nama bank penerima dari Bank Mandiri ke Bank SeaBank.
-          </p>
-        </section>
-
         {/* Order Summary */}
         <div className="w-full flex flex-col mt-8">
           <div className="bg-white border border-gray-300 rounded-xl p-6 w-full">
             <div className="flex flex-col gap-2">
-              <div className="flex justify-between items-center text-sm mb-2">
-                <span className="font-semibold min-w-[120px]">SubTotal</span>
-                <span className="font-bold">Rp 7.000.000</span>
-              </div>
-              <div className="flex justify-between items-center text-sm mb-2">
-                <span className="font-semibold min-w-[120px]">Discount</span>
-                <span className="font-bold">Rp 500.000</span>
-              </div>
               <div className="flex justify-between items-center text-base mb-4">
                 <span className="font-semibold min-w-[120px]">Total payment</span>
                 <span className="font-bold text-lg text-blue-600">Rp 6.500.000</span>
