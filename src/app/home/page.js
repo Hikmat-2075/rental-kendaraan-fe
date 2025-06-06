@@ -1,174 +1,170 @@
-'use client';
+"use client";
+import React, { useRef } from "react";
 
-import Head from 'next/head';
-import Image from 'next/image';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect, useState } from 'react';
+const promoCars = [
+  {
+    name: "Toyota Supra",
+    img: "/images/supra.png",
+    price: "Rp 1.500.000 / hari",
+    desc: "Mobil sport legendaris, cocok untuk speed lover."
+  },
+  {
+    name: "Mazda RX-7",
+    img: "/images/rx7.png",
+    price: "Rp 1.200.000 / hari",
+    desc: "Rotary engine dengan handling mantap."
+  },
+  {
+    name: "Lamborghini Huracan",
+    img: "/images/lambo.png",
+    price: "Rp 5.000.000 / hari",
+    desc: "Desain mewah, performa buas."
+  },
+  {
+    name: "BMW M4",
+    img: "/images/m4.png",
+    price: "Rp 2.000.000 / hari",
+    desc: "Coupe bertenaga untuk pengalaman elegan."
+  },
+  {
+    name: "Nissan GTR R35",
+    img: "/image/NissanGTR.png",
+    price: "Rp 2.500.000 / hari",
+    desc: "Godzilla jalanan dengan akselerasi brutal."
+  },
+  {
+    name: "Mercedes AMG GT",
+    img: "/images/amg.png",
+    price: "Rp 3.000.000 / hari",
+    desc: "Perpaduan antara power dan kemewahan."
+  },
+  {
+    name: "Porsche 911",
+    img: "/images/911.png",
+    price: "Rp 3.200.000 / hari",
+    desc: "Ikon abadi, stabil di semua kondisi."
+  }
+];
 
-export default function home() {
-  useEffect(() => {
-    import('bootstrap/dist/js/bootstrap.bundle.min.js');
-  }, []);
+export default function Home() {
+  const carouselRef = useRef(null);
 
-  // Tambahkan state untuk card yang dipilih
-  const [selectedCard, setSelectedCard] = useState(null);
+  const handlePrev = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -320, behavior: "smooth" });
+    }
+  };
+
+  const handleNext = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 320, behavior: "smooth" });
+    }
+  };
 
   return (
-    <>
-      <Head>
-        <title>VeloRent.</title>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-      </Head>
-
-      <nav className="navbar py-3" style={{ backgroundColor: '#6984FF' }}>
-        <div className="container-fluid">
-          <a className="navbar-brand text-white fw-bold fs-3" href="#">
-            Velo<span style={{ color: '#ffffff' }}>Rent.</span>
-          </a>
-          <div className="d-flex gap-4 justify-content-center flex-grow-1">
-            <a className="btn btn-outline-light px-5 py-3 fw-bold fs-5" href="#">Home</a>
-            <a className="btn btn-outline-light px-5 py-3 fw-bold fs-5" href="#">Settings</a>
-            <a className="btn btn-outline-light px-5 py-3 fw-bold fs-5" href="#">History</a>
+    <div className="min-h-screen font-sans bg-[#3b5bdb] relative overflow-x-hidden">
+      {/* Navbar */}
+      <div className="bg-black rounded-b-[25px] shadow-lg z-10 relative">
+        <nav className="flex items-center justify-between px-12 py-5">
+          <div className="logo text-3xl font-bold text-white tracking-tight">
+            VeloRent
           </div>
-          <div className="d-flex align-items-center">
-            <span className="text-white me-2 fw-bold fs-6">Hello, User !</span>
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-              alt="User"
-              width={38}
-              height={38}
-              className="rounded-circle"
-            />
+          <ul className="flex gap-16 text-white font-semibold text-lg">
+            <li>
+              <a href="/home" className="hover:text-blue-400 transition">Home</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-blue-400 transition">History</a>
+            </li>
+          </ul>
+          <div className="flex items-center gap-3">
+            <span className="text-white font-medium hover:text-blue-400 transition cursor-pointer">Hello, User !</span>
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-gray-200">
+              <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+              </svg>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
-      <div id="heroCarousel" className="carousel slide" data-bs-ride="carousel">
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            <img
-              src="https://img.lovepik.com/background/20211022/large/lovepik-city-road-background-image_401914511.jpg"
-              className="d-block w-100 h-100 position-absolute"
-              style={{ objectFit: 'cover', zIndex: 1, top: 0, left: 0 }}
-              alt="Slide 1 Background"
-            />
-            <img
-              src="https://www.belitungtours.com/asap/assets/asap/pages/setting/kategori_sewa/images/2/220810095640_rental-mobil-belitung-murah_2.png"
-              className="d-block w-100"
-              style={{ position: 'relative', zIndex: 2 }}
-              alt="Mobil"
-            />
-            <div
-              className="carousel-caption d-flex justify-content-start align-items-start h-100"
-              style={{ position: 'absolute', top: '20px', left: '20px', zIndex: 3 }}
+      {/* Section di bawahnya overlap ke atas */}
+      <div className="bg-gradient-to-b from-[#3b5bdb] to-[#5f8dff] pt-12 pb-20 -mt-8 z-0 relative">
+        <section className="flex justify-center gap-16">
+        <a
+          href="/vehicles/cars"
+          className="bg-white rounded-2xl shadow-md flex flex-col items-center px-12 py-10 transition hover:scale-105 cursor-pointer"
+        >
+          <img src="https://img.icons8.com/ios/100/car--v1.png" alt="Car" className="w-24 h-24 mb-4" />
+          <p className="font-bold text-lg text-gray-800">Cars</p>
+        </a>
+
+        <a
+          href="/vehicles/motorcycles"
+          className="bg-white rounded-2xl shadow-md flex flex-col items-center px-12 py-10 transition hover:scale-105 cursor-pointer"
+        >
+          <img src="https://img.icons8.com/ios/100/motorcycle.png" alt="Motorcycle" className="w-24 h-24 mb-4" />
+          <p className="font-bold text-lg text-gray-800">Motorcycle</p>
+        </a>
+
+        </section>
+      </div>
+
+      {/* Hot Products */}
+      <div className="bg-white py-12">
+        <section className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-2 mb-6">
+            <h2 className="text-2xl font-extrabold text-black">Hot Promo this week</h2>
+            <span className="text-2xl">🔥</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <button
+              className="bg-white shadow-md w-12 h-12 flex items-center justify-center rounded-full text-2xl text-gray-700 hover:bg-gray-100 transition"
+              onClick={handlePrev}
+              aria-label="Scroll left"
             >
-              <h1 className="display-4 fw-bold text-white bg-dark bg-opacity-50 px-3 py-2 rounded">
-                TEMPAT SEWA TERMURAH
-              </h1>
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div
+              className="flex gap-8 px-2"
+              ref={carouselRef}
+              style={{
+                scrollBehavior: "smooth",
+                overflowX: "hidden",
+                WebkitOverflowScrolling: "touch"
+              }}
+            >
+              {promoCars.map((car, idx) => (
+                <div
+                  key={idx}
+                  className="bg-gray-100 rounded-2xl flex flex-col items-center justify-center min-w-[260px] min-h-[230px] shadow transition px-4 py-4"
+                >
+                  <img
+                    src={car.img}
+                    alt={car.name}
+                    className="w-44 h-28 object-contain mb-2"
+                  />
+                  <p className="font-semibold text-sm text-gray-800">{car.name}</p>
+                  <p className="text-[12px] text-gray-600 italic text-center">{car.desc}</p>
+                  <p className="text-[12px] text-gray-900 font-bold mt-1">{car.price}</p>
+                </div>
+              ))}
             </div>
+            <button
+              className="bg-white shadow-md w-12 h-12 flex items-center justify-center rounded-full text-2xl text-gray-700 hover:bg-gray-100 transition"
+              onClick={handleNext}
+              aria-label="Scroll right"
+            >
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
-
-          <div className="carousel-item">
-            <img
-              src="https://img.lovepik.com/background/20211021/small/lovepik-highway-city-background-image_401429529.jpg"
-              className="d-block w-100 h-100 position-absolute"
-              style={{ objectFit: 'cover', zIndex: 1, top: 0, left: 0 }}
-              alt="Slide 2 Background"
-            />
-            <img
-              src="/Sewa-Mobil-malang-jogja-magelang.png"
-              className="d-block w-100"
-              style={{ position: 'relative', zIndex: 2 }}
-              alt="Mobil"
-            />
-            <div className="carousel-caption d-flex justify-content-center align-items-center h-100">
-              <h1 className="display-4 fw-bold text-white bg-dark bg-opacity-50 px-3 py-2 rounded">
-                SEWA MOBIL JOGJA
-              </h1>
-            </div>
-          </div>
-        </div>
-
-        <button
-          className="carousel-control-prev"
-          type="button"
-          data-bs-target="#heroCarousel"
-          data-bs-slide="prev"
-        >
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button
-          className="carousel-control-next"
-          type="button"
-          data-bs-target="#heroCarousel"
-          data-bs-slide="next"
-        >
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Next</span>
-        </button>
+        </section>
       </div>
-
-      <h1 className="text-center my-5">CHOOSE YOUR CARS !</h1>
-
-      <div className="d-flex justify-content-center mb-4 gap-3 flex-wrap">
-        <select className="form-select" style={{ width: '200px' }} defaultValue="">
-          <option value="" disabled>CARS TYPE</option>
-          <option value="small">Small</option>
-          <option value="medium">Medium</option>
-          <option value="large">Large</option>
-        </select>
-        <input type="date" className="form-control" style={{ width: '200px' }} />
-        <input type="date" className="form-control" style={{ width: '200px' }} />
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Rp.50.000,00 - Rp.1.000.000,00"
-          style={{ width: '250px' }}
-        />
-        <button className="btn btn-primary">
-          <i className="bi bi-search"></i>
-        </button>
-      </div>
-
-      <div className="container py-5">
-        <div className="row g-4">
-          {Array(6).fill(0).map((_, idx) => (
-            <div className="col-md-4" key={idx}>
-              <button
-                type="button"
-                className={`btn vehicle-btn w-100 h-100 rounded-3 fw-bold`}
-                style={{
-                  backgroundColor: selectedCard === idx ? '#6984FF' : '#F6F6F6', // Ubah warna default
-                  color: selectedCard === idx ? '#fff' : '#212529',
-                  border: selectedCard === idx ? '2px solid #6984FF' : '1px solid #212529',
-                  transition: 'background 0.2s, color 0.2s, border 0.2s'
-                }}
-                onClick={() => setSelectedCard(idx)}
-              >
-                <img
-                  src="https://clipground.com/images/gambar-mobil-png-8.png"
-                  alt="Small Car"
-                  className="vehicle-img d-block mx-auto"
-                  style={{ width: '200px', height: '200px', objectFit: 'contain' }} // Hapus filter
-                />
-                <h3 className="h5 fw-bold mb-2">SMALL</h3>
-                <p className="text-muted small mb-2" style={{ color: selectedCard === idx ? '#e0e0e0' : undefined }}>4 kursi, ekonomis</p>
-                <p className="fw-bold mb-0" style={{ color: selectedCard === idx ? '#fff' : '#2366e8' }}>Rp. 50.000</p>
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
+    </div>
   );
 }

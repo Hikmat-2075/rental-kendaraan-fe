@@ -1,5 +1,6 @@
-export default function pembayaran() {
+export default function Payment() {
   return (
+<<<<<<< HEAD:src/app/pembayaran/page.js
     <div className="min-h-screen bg-gray-100 p-0 font-sans">
       {/* Header */}
       <header className="flex justify-between items-center bg-blue-500 text-white p-4 border-b border-blue-200 rounded-none">
@@ -16,6 +17,35 @@ export default function pembayaran() {
           </div>
         </div>
       </header>
+=======
+    <div className="min-h-screen font-sans bg-[#3b5bdb] relative overflow-x-hidden">
+      {/* Navbar */}
+      <div className="bg-black rounded-b-[25px] shadow-lg z-10 relative">
+        <nav className="flex items-center justify-between px-12 py-5">
+          <div className="logo text-3xl font-bold text-white tracking-tight">
+            VeloRent
+          </div>
+          <ul className="flex gap-16 text-white font-semibold text-lg">
+            <li>
+              <a href="/home" className="hover:text-blue-400 transition">Home</a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-blue-400 transition">History</a>
+            </li>
+          </ul>
+          <div className="flex items-center gap-3">
+            <span className="text-white font-medium hover:text-blue-400 transition cursor-pointer">Hello, User !</span>
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-gray-200">
+              <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+              </svg>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+>>>>>>> 878041264cdfddd66e77069b40c79a829ecbc1be:src/app/checkout/payment/page.js
       {/* Main Content */}
       <main className="mt-8 flex flex-col gap-8 px-4">
         {/* Car Details */}
