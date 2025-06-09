@@ -7,12 +7,13 @@ import { Toaster, toast } from 'react-hot-toast';
 
 export default function Payment() {
   const router = useRouter();
-  const { transaksiId } = useParams() // Mendapatkan transaksiId dari URL query parameter
+  const { id } = useParams(); // Mendapatkan id dari URL query parameter
 
   const [username, setUsername] = useState('');
   const [totalHarga, setTotalHarga] = useState(null);
   const [jumlahBayar, setJumlahBayar] = useState(0);
   const [kembalian, setKembalian] = useState(0);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   // Ambil username dari localStorage
   useEffect(() => {
@@ -23,40 +24,39 @@ export default function Payment() {
       console.warn('Username not found in localStorage');
     }
 
-    // Ambil data transaksi berdasarkan transaksiId (dari URL parameter)
-    if (transaksiId) {
-      request.get(`/transaksi/${transaksiId}`)
+    // Ambil data transaksi berdasarkan id (dari URL parameter)
+    if (id) {
+      request.get(`/transaksi/${id}`)
         .then(response => {
           const data = response.data;
-          console.log(data);
-          setTotalHarga(data.totalHarga); // Ambil total harga transaksi
-
+          setTotalHarga(data.totalHarga);
         })
         .catch(err => {
           console.error('Gagal mengambil data transaksi:', err);
         });
     }
-  }, [transaksiId]);
+  }, [id]);
 
   // Fungsi untuk menghitung kembalian
   const handlePayment = async () => {
     if (jumlahBayar >= totalHarga) {
       const kembali = jumlahBayar - totalHarga;
       setKembalian(kembali);
-      
+
       try {
-        // Kirim data pembayaran ke backend menggunakan POST request
         const response = await request.post('/pembayaran', {
-          transaksiId,
+          transaksiId: id,
           jumlahBayar
         });
 
-        // Menangani response sukses
-        const pembayaran = response.data;
         toast.success('Pembayaran berhasil!');
-        
-        // Arahkan ke halaman konfirmasi atau halaman lain setelah pembayaran berhasil
-        router.push(`/confirmation/${pembayaran.id}`);
+        setShowConfirmation(true); // Tampilkan modal konfirmasi
+
+        // Redirect setelah beberapa detik (misal 2 detik)
+        setTimeout(() => {
+          router.push('/home');
+        }, 2000);
+
       } catch (error) {
         console.error('Gagal melakukan pembayaran:', error);
         toast.error('Pembayaran gagal, coba lagi!');
@@ -83,10 +83,10 @@ export default function Payment() {
                   <label className="block text-sm font-semibold mb-1">Jumlah Bayar</label>
                   <input
                     type="number"
-                    value={jumlahBayar}
-                    onChange={e => setJumlahBayar(Number(e.target.value))}
+                    onChange={e => setJumlahBayar(e.target.value === "" ? "" : Number(e.target.value))}
                     className="w-full p-2 bg-gray-100 rounded-md"
                     placeholder="Masukkan jumlah bayar"
+                    value={jumlahBayar === 0 ? "" : jumlahBayar}
                   />
                 </div>
                 <div className="mb-4">
@@ -108,6 +108,20 @@ export default function Payment() {
               </div>
             </div>
           </section>
+          {showConfirmation && (
+            <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+              <div className="bg-white rounded-xl shadow-xl p-8 max-w-sm w-full text-center">
+                <h3 className="text-2xl font-bold mb-4 text-green-600">Pembayaran Berhasil!</h3>
+                <p className="mb-4">Terima kasih, pembayaran Anda telah diterima.</p>
+                <div className="flex flex-col gap-2 text-left text-sm mb-4">
+                  <span><b>Total Harga:</b> Rp {totalHarga?.toLocaleString()}</span>
+                  <span><b>Jumlah Bayar:</b> Rp {jumlahBayar?.toLocaleString()}</span>
+                  <span><b>Kembalian:</b> Rp {kembalian?.toLocaleString()}</span>
+                </div>
+                <p className="text-gray-500 text-xs">Anda akan diarahkan ke halaman konfirmasi...</p>
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </>
