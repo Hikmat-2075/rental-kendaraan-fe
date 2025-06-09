@@ -34,7 +34,7 @@ export default function ListMobilPage() {
 
     const handleDelete = async (mobilId) => {
 
-        const konfirmasi = confirm('Apakah Anda yakin ingin menghapus motor ini?');
+        const konfirmasi = confirm('Apakah Anda yakin ingin menghapus mobil ini?');
         if (!konfirmasi) return;
 
         try {
