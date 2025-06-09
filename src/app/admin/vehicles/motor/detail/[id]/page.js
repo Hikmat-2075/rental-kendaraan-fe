@@ -50,7 +50,7 @@ export default function DetailMotorPage({ params }) {
                     <p><span className="font-semibold">Harga:</span> Rp {motor.harga.toLocaleString()}</p>
                     <p><span className="font-semibold">Transmisi:</span> {motor.jenisTransmisi}</p>
                     <p><span className="font-semibold">Bahan Bakar:</span> {motor.jenisBahanBakar}</p>
-                    <p><span className="font-semibold">Tipe Mobil:</span> {motor.tipeMotor}</p>
+                    <p><span className="font-semibold">Tipe Motor:</span> {motor.tipeMotor}</p>
                     <p><span className="font-semibold">Kapasitas Mesin:</span> {motor.kapasitasMesin} cc</p>
                 </div>
             </div>

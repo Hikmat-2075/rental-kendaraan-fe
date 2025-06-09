@@ -1,12 +1,14 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import request from '@/utils/request';
 
-export default function EditMobil({ params }) {
+export default function EditMotor() {
     const router = useRouter();
-    const { id } = params;
+    const params = useParams();
+    const id = params.id;
     const [motor, setMotor] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -189,12 +191,12 @@ export default function EditMobil({ params }) {
 
                 {/* Input Tipe Mobil */}
                 <div className="mb-4">
-                    <label htmlFor="tipeMobil" className="block text-sm font-medium mb-2">Tipe Mobil</label>
+                    <label htmlFor="tipeMotor" className="block text-sm font-medium mb-2">Tipe Motor</label>
                     <input
                         type="text"
-                        id="tipeMobil"
-                        name="tipeMobil"
-                        value={motor.tipeMobil || ''}
+                        id="tipeMotor"
+                        name="tipeMotor"
+                        value={motor.tipeMotor || ''}
                         onChange={handleChange}
                         className="px-4 py-2 border rounded w-full"
                         required
@@ -203,12 +205,11 @@ export default function EditMobil({ params }) {
 
                 {/* Input Gambar */}
                 <div className="mb-4">
-                    <label htmlFor="gambar" className="block text-sm font-medium mb-2">Gambar Mobil</label>
+                    <label htmlFor="gambar" className="block text-sm font-medium mb-2">Gambar Motor</label>
                     <input
                         type="file"
                         id="gambar"
                         name="gambar"
-                        value={motor.gambar || ''}
                         onChange={handleFileChange}
                         className="px-4 py-2 border rounded w-full"
                     />
