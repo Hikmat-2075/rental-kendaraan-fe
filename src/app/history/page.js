@@ -71,7 +71,7 @@ export default function HistoryPage() {
                 >
                   {/* Placeholder image */}
                   <img
-                    src="/no-image.png"
+                    src={`${process.env.NEXT_PUBLIC_HOST}${item.gambar}`}
                     alt={item.namaKendaraan}
                     className="w-48 h-28 object-contain"
                   />
