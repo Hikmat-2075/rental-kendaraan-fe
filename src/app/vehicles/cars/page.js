@@ -76,7 +76,9 @@ export default function Cars() {
 										{mobil.status || "Tidak Tersedia"}
 									</p>
 									<p className="font-semibold mt-2">
-										{mobil.harga ? `Rp ${mobil.harga} / hari` : "Harga tidak tersedia"}
+										{mobil.harga
+											? `Rp ${mobil.harga.toLocaleString("id-ID")} / hari`
+											: "Harga tidak tersedia"}
 									</p>
 								</div>
 							))
