@@ -66,7 +66,12 @@ export default function Page() {
               <p className="text-lg text-gray-700 mb-4">
                 Price at{" "}
                 <span className="font-bold">
-                  IDR {kendaraan.harga},00 / Day
+                  {Number(kendaraan.harga).toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 2,
+                  })}{" "}
+                  / Day
                 </span>
               </p>
 

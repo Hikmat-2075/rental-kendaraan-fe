@@ -7,7 +7,7 @@ import { Toaster, toast } from 'react-hot-toast';
 
 export default function Payment() {
   const router = useRouter();
-  const { id } = useParams(); // Mendapatkan id dari URL query parameter
+  const { id } = useParams();
 
   const [username, setUsername] = useState('');
   const [totalHarga, setTotalHarga] = useState(null);
@@ -15,7 +15,6 @@ export default function Payment() {
   const [kembalian, setKembalian] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // Ambil username dari localStorage
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
@@ -24,7 +23,6 @@ export default function Payment() {
       console.warn('Username not found in localStorage');
     }
 
-    // Ambil data transaksi berdasarkan id (dari URL parameter)
     if (id) {
       request.get(`/transaksi/${id}`)
         .then(response => {
@@ -37,7 +35,6 @@ export default function Payment() {
     }
   }, [id]);
 
-  // Fungsi untuk menghitung kembalian
   const handlePayment = async () => {
     if (jumlahBayar >= totalHarga) {
       const kembali = jumlahBayar - totalHarga;
@@ -50,9 +47,8 @@ export default function Payment() {
         });
 
         toast.success('Pembayaran berhasil!');
-        setShowConfirmation(true); // Tampilkan modal konfirmasi
+        setShowConfirmation(true);
 
-        // Redirect setelah beberapa detik (misal 2 detik)
         setTimeout(() => {
           router.push('/home');
         }, 2000);
@@ -69,14 +65,14 @@ export default function Payment() {
   return (
     <>
       <Toaster position="top-center" />
-      <div className="min-h-screen bg-gray-100 p-0 font-sans">
+      <div className="min-h-screen bg-gray-100 p-4 font-sans">
         <Navbar userName={username} />
         <main className="mt-8 flex flex-col gap-8 px-4">
           <section className="bg-white p-6 border border-gray-300 rounded-xl shadow-sm flex-1">
-            <h2 className="text-xl font-bold mb-6">Pembayaran</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">Pembayaran</h2>
             <div className="flex flex-col lg:flex-row items-center gap-6">
               <div className="flex-1 w-full">
-                <p className="text-blue-500 font-bold mb-4">
+                <p className="text-blue-500 font-bold mb-4 text-lg">
                   Total Harga: {totalHarga !== null ? `Rp ${totalHarga.toLocaleString()}` : 'Loading...'}
                 </p>
                 <div className="mb-4">
@@ -84,7 +80,7 @@ export default function Payment() {
                   <input
                     type="number"
                     onChange={e => setJumlahBayar(e.target.value === "" ? "" : Number(e.target.value))}
-                    className="w-full p-2 bg-gray-100 rounded-md"
+                    className="w-full p-2 bg-gray-100 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Masukkan jumlah bayar"
                     value={jumlahBayar === 0 ? "" : jumlahBayar}
                   />
@@ -95,13 +91,13 @@ export default function Payment() {
                     type="number"
                     value={kembalian}
                     readOnly
-                    className="w-full p-2 bg-gray-100 rounded-md"
+                    className="w-full p-2 bg-gray-100 rounded-md border border-gray-300"
                     placeholder="Kembalian"
                   />
                 </div>
                 <button
                   onClick={handlePayment}
-                  className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4"
+                  className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600 transition duration-200"
                 >
                   Bayar
                 </button>
