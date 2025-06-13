@@ -66,14 +66,14 @@ export default function UsersPage() {
             <th className="px-4 py-2">Email</th>
             <th className="px-4 py-2">No Telepon</th>
             <th className="px-4 py-2">Dibuat Pada</th>
-            <th className="px-4 py-2">Edit</th>
+            {/* <th className="px-4 py-2">Edit</th> */}
             <th className="px-4 py-2">Hapus</th>
           </tr>
         </thead>
         <tbody className="text-gray-700">
           {loading ? (
             <tr>
-              <td colSpan="7" className="px-4 py-2 text-center">Memuat data...</td>
+              <td colSpan="6" className="px-4 py-2 text-center">Memuat data...</td>
             </tr>
           ) : users.length > 0 ? (
             users.map((user) => (
@@ -83,14 +83,14 @@ export default function UsersPage() {
                 <td className="px-4 py-2">{user.email}</td>
                 <td className="px-4 py-2">{user.noTelepon}</td>
                 <td className="px-4 py-2">{user.createdAt ? new Date(user.createdAt).toLocaleString() : '-'}</td>
-                <td className="px-4 py-2">
+                {/* <td className="px-4 py-2">
                   <button
                     className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded"
                     onClick={() => handleEdit(user.id)}
                   >
                     Edit
                   </button>
-                </td>
+                </td> */}
                 <td className="px-4 py-2">
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
@@ -103,7 +103,7 @@ export default function UsersPage() {
             ))
           ) : (
             <tr>
-              <td colSpan="7" className="px-4 py-2 text-center">
+              <td colSpan="6" className="px-4 py-2 text-center">
                 Tidak ada pengguna.
               </td>
             </tr>
