@@ -1,87 +1,36 @@
-# rental-kendaraan-fe
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Aplikasi web untuk sistem rental/penyewaan kendaraan (mobil & motor) — menyediakan antarmuka bagi pengguna untuk menelusuri kendaraan, melakukan proses penyewaan hingga pembayaran, serta antarmuka admin untuk mengelola armada, pengguna, dan transaksi. Merupakan frontend companion dari backend `rental-kendaraan-be`.
+## Getting Started
 
-## Tech Stack
-
-- **Framework:** Next.js 15 (App Router), React 19
-- **Styling:** Tailwind CSS v4, Bootstrap 5
-- **HTTP Client:** Axios (dengan interceptor untuk auto-attach token)
-- **Autentikasi:** Token disimpan di cookie (`js-cookie`), dikirim sebagai Bearer token
-- **Validasi:** Zod
-- **Notifikasi UI:** React Hot Toast, React Toastify
-- **Ikon:** React Icons
-- **Linting:** ESLint (eslint-config-next)
-
-## Fitur Utama
-
-**Halaman Publik & Pengguna**
-- Beranda dengan promo kendaraan (mobil & motor)
-- Daftar kendaraan per kategori (mobil / motor)
-- Login & registrasi
-- Profil pengguna
-
-**Alur Penyewaan (Checkout)**
-- Review detail penyewaan
-- Proses pembayaran (input jumlah bayar & perhitungan kembalian otomatis)
-- Halaman hasil/konfirmasi transaksi
-
-**Riwayat**
-- Riwayat transaksi penyewaan milik pengguna
-
-**Panel Admin**
-- Dashboard ringkasan admin
-- Manajemen pengguna (lihat, edit)
-- Manajemen transaksi
-- Manajemen kendaraan — mobil & motor (tambah, lihat detail, edit, hapus)
-
-## Instalasi & Menjalankan Proyek
-
-### Prasyarat
-- Node.js
-- Backend `rental-kendaraan-be` sudah berjalan dan dapat diakses
-
-### Langkah instalasi
+First, run the development server:
 
 ```bash
-# 1. Clone repository
-git clone <repository-url>
-cd rental-kendaraan-fe
-
-# 2. Install dependencies
-npm install
-
-# 3. Buat file .env.local berisi alamat backend API
-```
-
-Variabel environment yang diperlukan: `NEXT_PUBLIC_HOST` (base URL backend API, contoh: `http://localhost:8080`).
-
-```bash
-# 4. Jalankan dalam mode development
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Aplikasi berjalan di `http://localhost:3000` secara default.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Build untuk production
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-```bash
-npm run build
-npm run start
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Struktur Folder Singkat
+## Learn More
 
-```
-src/
-├── app/
-│   ├── home/              # Beranda & profil pengguna
-│   ├── auth/               # Login & registrasi
-│   ├── vehicles/            # Daftar mobil & motor
-│   ├── checkout/             # Alur review → pembayaran → hasil transaksi
-│   ├── history/             # Riwayat transaksi
-│   └── admin/               # Dashboard, manajemen pengguna/kendaraan/transaksi
-├── components/            # Navbar, SidebarAdmin, dll
-└── utils/
-    └── request.js            # Wrapper Axios (base URL & interceptor token)
-```
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
